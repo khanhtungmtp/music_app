@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app/data/models/song.dart';
 import 'package:music_app/ui/discovery/discovery.dart';
 import 'package:music_app/ui/home/ViewModels.dart';
+import 'package:music_app/ui/now_playing/now_playing.dart';
 import 'package:music_app/ui/setting/setting.dart';
 import 'package:music_app/ui/user/user.dart';
 
@@ -142,7 +143,7 @@ class _songItemSection extends StatelessWidget {
       contentPadding: EdgeInsets.only(left: 24, right: 8),
       title: Text(song.title),
       subtitle: Text(song.artist),
-      leading: ClipRRect(
+      leading: ClipRRect( // ClipRRect bo tròn
         borderRadius: BorderRadius.circular(16),
         child: FadeInImage.assetNetwork(
           placeholder: 'assets/itunes.png',
@@ -155,6 +156,11 @@ class _songItemSection extends StatelessWidget {
         ),
       ),
       trailing: IconButton(onPressed: () => {}, icon: Icon(Icons.more_horiz)),
+      onTap: () {
+        Navigator.push(context, CupertinoPageRoute(builder: (context) {
+          return NowPlayingScreen(song: song, songs: parent.songs);
+        }));
+      },
     );
   }
 }
