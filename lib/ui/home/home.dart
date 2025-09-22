@@ -103,14 +103,21 @@ class _HomePageTabState extends State<HomePageTab> {
     return Scaffold(body: getBody());
   }
 
+  @override
+  void dispose() {
+    _model.songStream.close();
+    super.dispose();
+  }
+
   Widget getBody() {
     bool isLoading = songs.isEmpty;
     if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     } else {
       return ListView.separated(
-        itemBuilder: (context, position) =>
-            Center(child: Text(songs[position].title)),
+        itemBuilder: (context, position) => Center(
+          child: _songItemSection(parent: this, song: songs[position]),
+        ),
         separatorBuilder: (context, position) => const Divider(
           color: Colors.grey,
           thickness: 1,
@@ -121,5 +128,32 @@ class _HomePageTabState extends State<HomePageTab> {
         shrinkWrap: true,
       );
     }
+  }
+}
+
+class _songItemSection extends StatelessWidget {
+  final _HomePageTabState parent;
+  final Song song;
+  const _songItemSection({required this.parent, required this.song});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.only(left: 24, right: 8),
+      title: Text(song.title),
+      subtitle: Text(song.artist),
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: FadeInImage.assetNetwork(
+          placeholder: 'assets/itunes.png',
+          image: song.image,
+          width: 32,
+          height: 32,
+          imageErrorBuilder: (context, error, stackTrace) {
+            return Image.asset('assets/itunes.png', width: 32, height: 32);
+          },
+        ),
+      ),
+    );
   }
 }
