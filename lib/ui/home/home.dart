@@ -154,6 +154,7 @@ class _songItemSection extends StatelessWidget {
           },
         ),
       ),
+      trailing: IconButton(onPressed: () => {}, icon: Icon(Icons.more_horiz)),
     );
   }
 }
