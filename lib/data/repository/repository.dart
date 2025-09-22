@@ -16,6 +16,7 @@ class DefaultRepository implements Repository {
     await remoteDataSource.fetchSongs().then((remoteSongs) {
       if(remoteSongs == null){
         localDataSource.fetchSongs().then((localSong) {
+          print('localDataSource called');
           if(localSong != null){
             songs.addAll(localSong);
           }
